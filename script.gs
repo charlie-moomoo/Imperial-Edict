@@ -38,13 +38,15 @@ function run() {
       if ((tempDatabase[course.id]||"") == message.updateTime) continue;
       tempDatabase[course.id] = message.updateTime
       if (!secondRun) {
-        const teacherName = Classroom.UserProfiles.get(message.creatorUserId).name.fullName
-        const imperialEdict = `傳聖旨~
+        try {
+          const teacherName = Classroom.UserProfiles.get(message.creatorUserId).name.fullName
+          const imperialEdict = `傳聖旨~
 ${teacherName}老師曰:
 ${message.text}
 連結: ${message.alternateLink}`
-        console.log(imperialEdict)
-        GmailApp.sendEmail(config.groupEmail,`傳聖旨~ ${message.updateTime}`,imperialEdict)
+          console.log(imperialEdict)
+          GmailApp.sendEmail(config.groupEmail,`傳聖旨~ ${message.updateTime}`,imperialEdict)
+        } catch(e) {}
       }
     }
     if (secondRun) userProp.setProperty("IMPERIAL_EDICT_SCRIPT_SECOND_RUN",true)
